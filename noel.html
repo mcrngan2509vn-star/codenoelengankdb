@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thiệp Giáng Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:radial-gradient(circle at top,#001a33,#000);
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+    perspective:1200px;
+}
+
+/* ===== TIÊU ĐỀ ===== */
+.title{
+    position:absolute;
+    top:7%;
+    width:100%;
+    text-align:center;
+    font-size:48px;
+    text-shadow:0 0 15px red,0 0 40px gold;
+}
+
+/* ===== TUYẾT ===== */
+.snow{
+    position:absolute;
+    top:-10px;
+    color:white;
+    animation:fall linear infinite;
+    user-select:none;
+}
+@keyframes fall{
+    to{transform:translateY(110vh);}
+}
+
+/* ===== NÚT MỞ ===== */
+.open-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:18px 40px;
+    font-size:22px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ff0000,#ffcc00);
+    color:white;
+    box-shadow:0 0 30px gold;
+    animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+    50%{transform:translate(-50%,-50%) scale(1.1);}
+}
+
+/* ===== QUYỂN SÁCH ===== */
+.book{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:340px;
+    height:440px;
+    transform:translate(-50%,-50%);
+    display:none;
+}
+
+/* BÌA */
+.cover{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#8b0000,#ff3333);
+    border-radius:20px;
+    transform-origin:left;
+    box-shadow:0 0 40px gold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    text-shadow:0 0 15px gold;
+    transition:1.2s ease;
+    z-index:2;
+}
+
+/* TRANG TRONG */
+.page{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#b30000,#ff6666);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(255,215,0,0.6);
+}
+
+.page-title{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    font-size:24px;
+    white-space:nowrap;
+    text-shadow:0 0 15px gold;
+}
+
+.page p{
+    margin-top:25px;
+    font-size:17px;
+    line-height:1.6;
+}
+
+.tree{
+    font-size:80px;
+    margin-top:30px;
+    animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+    from{text-shadow:0 0 10px lime;}
+    to{text-shadow:0 0 40px gold;}
+}
+
+/* MỞ SÁCH */
+.book.open .cover{
+    transform:rotateY(-160deg);
+}
+
+/* ===== ÔNG GIÀ NOEL ===== */
+.santa{
+    position:absolute;
+    top:60px;
+    left:-200px;
+    font-size:80px;
+    animation:fly 18s linear infinite;
+}
+@keyframes fly{
+    to{left:110%;}
+}
+
+/* ===== PHÁO HOA ===== */
+.fire{
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    animation:boom 1.5s forwards;
+}
+@keyframes boom{
+    to{
+        transform:translate(var(--x),var(--y));
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">🎄 Merry Christmas 🎄</div>
+<div class="santa">🎅🛷</div>
+
+<button class="open-btn" onclick="openBook()">📖 Mở thiệp 📖</button>
+
+<div class="book" id="book">
+    <div class="cover">🎄 Chúc mừng Noel 🎄</div>
+
+    <div class="page">
+        <div class="page-title">
+            🎄 <span>Chúc mừng Noel</span> 🎄
+        </div>
+
+        <p>
+            Chúc bạn một mùa Giáng Sinh<br>
+            an lành – hạnh phúc ❤️<br>
+            Năm mới tràn đầy may mắn ✨
+        </p>
+
+        <div class="tree">🎄</div>
+    </div>
+</div>
+
+<audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* TUYẾT */
+for(let i=0;i<120;i++){
+    let s=document.createElement("div");
+    s.className="snow";
+    s.innerHTML="❄";
+    s.style.left=Math.random()*innerWidth+"px";
+    s.style.fontSize=10+Math.random()*15+"px";
+    s.style.animationDuration=5+Math.random()*6+"s";
+    document.body.appendChild(s);
+}
+
+/* MỞ SÁCH */
+function openBook(){
+    document.querySelector(".open-btn").style.display="none";
+    const book=document.getElementById("book");
+    book.style.display="block";
+    setTimeout(()=>book.classList.add("open"),100);
+    fireworks();
+}
+
+/* PHÁO HOA */
+function fireworks(){
+    setInterval(()=>{
+        for(let i=0;i<15;i++){
+            let f=document.createElement("div");
+            f.className="fire";
+            f.style.left=50+Math.random()*40+"%";
+            f.style.top=20+Math.random()*30+"%";
+            f.style.background=["red","yellow","cyan","lime","pink"][Math.floor(Math.random()*5)];
+            f.style.setProperty("--x",(Math.random()*200-100)+"px");
+            f.style.setProperty("--y",(Math.random()*200-100)+"px");
+            document.body.appendChild(f);
+            setTimeout(()=>f.remove(),1500);
+        }
+    },2500);
+}
+</script>
+
+</body>
+</html>
